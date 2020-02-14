@@ -4,6 +4,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const User = require('./models/User');
 const bodyParser = require('body-parser');
+const morgan = require('morgan');
+const _ = require('lodash');
 
 const app = express();
 
@@ -18,6 +20,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use(bodyParser.json());
+app.use(morgan('dev'));
 
 var routes = require('./routes/userRoutes');
 routes(app);
