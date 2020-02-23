@@ -1,14 +1,16 @@
 'use strict';
 
+const jwt = require('../middleware/jwt');
+
 module.exports = (app) => {
-    var userController = require('../controllers/userController');
+    const userController = require('../controllers/userController');
 
     app.route('/user')
-        .get(userController.list_all_users)
-        .post(userController.create_a_user);
+        .get(jwt.checkToken, userController.listAllUsers)
+        .post(userController.createUser);
 
     app.route('/user/:id')
-        .get(userController.read_a_user)
-        .put(userController.update_a_user)
-        .delete(userController.delete_a_user);
+        .get(userController.readUser)
+        .put(userController.updateUser)
+        .delete(userController.deleteUser);
 }

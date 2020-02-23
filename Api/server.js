@@ -10,7 +10,8 @@ const _ = require('lodash');
 const app = express();
 
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.DATABASE_URL, {
+const DATABASE_URL = process.env.DATABASE_URL || "mongodb://localhost:27017/media-server-db";
+mongoose.connect(DATABASE_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
@@ -23,7 +24,9 @@ app.use(bodyParser.json());
 app.use(morgan('dev'));
 
 var routes = require('./routes/userRoutes');
+var auth = require('./routes/userAuth');
 routes(app);
+auth(app);
 
 const PORT = process.env.PORT || 3000
 

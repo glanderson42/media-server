@@ -3,7 +3,7 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('Users');
 
-exports.list_all_users = (req, res) => {
+exports.listAllUsers = (req, res) => {
     User.find({}, (err, user) => {
         if(err) {
             res.send(err);
@@ -12,7 +12,7 @@ exports.list_all_users = (req, res) => {
     })
 };
 
-exports.create_a_user = (req, res) => {
+exports.createUser = (req, res) => {
     var new_user = new User(req.body);
     new_user.save((err, user) => {
         if(err) {
@@ -22,7 +22,7 @@ exports.create_a_user = (req, res) => {
     });
 };
 
-exports.read_a_user = (req, res) => {
+exports.readUser = (req, res) => {
     User.findById(req.params.id, (err, user) => {
         if(err) {
             res.send(err);
@@ -31,7 +31,7 @@ exports.read_a_user = (req, res) => {
     })
 };
 
-exports.update_a_user = (req, res) => {
+exports.updateUser = (req, res) => {
     User.findOneAndUpdate({
         _id: req.params.id
     }, req.body, {
@@ -44,7 +44,7 @@ exports.update_a_user = (req, res) => {
     });
 };
 
-exports.delete_a_user = (req, res) => {
+exports.deleteUser = (req, res) => {
     User.remove({
         _id: req.params.id
     }, (err, user) => {
