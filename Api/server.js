@@ -10,11 +10,14 @@ const _ = require('lodash');
 const app = express();
 
 mongoose.Promise = global.Promise;
-const DATABASE_URL = process.env.DATABASE_URL || "mongodb://localhost:27017/media-server-db";
+const DATABASE_URL = process.env.DATABASE_URL || "mongodb://localhost:27017/mediaServer";
 mongoose.connect(DATABASE_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true
-});
+}).then(
+    () =>  { console.log('Connected to the database') },
+    (err) => { console.log('Can not connect the database! ' + err) }
+);
 
 app.use(bodyParser.urlencoded({
     extended: true,

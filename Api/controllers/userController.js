@@ -1,5 +1,6 @@
 'use strict';
 
+const emailConfirm = require('../middleware/emailConfirm');
 var mongoose = require('mongoose');
 var User = mongoose.model('Users');
 
@@ -18,7 +19,8 @@ exports.createUser = (req, res) => {
         if(err) {
             res.send(err);
         }
-        res.json(user)
+        emailConfirm.sendConfirmationMail(user, req.get("host"));
+        res.json(user);
     });
 };
 

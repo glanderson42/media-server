@@ -15,6 +15,10 @@ var UserSchema = new Schema({
     email: {
         type: String,
         required: 'Email is required'
+    },
+    isVerified: {
+        type: Boolean,
+        default: false
     }
 });
 

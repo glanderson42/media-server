@@ -6,4 +6,7 @@ module.exports = (app) => {
 
     app.route('/auth')
         .post(userAuthController.authUser);
+
+    app.route('/verify')
+        .get(userAuthController.emailConfirm);
 }
