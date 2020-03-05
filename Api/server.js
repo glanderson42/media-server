@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+const config = require('./config');
 const express = require('express');
 const mongoose = require('mongoose');
 const User = require('./models/User');
@@ -10,13 +11,17 @@ const _ = require('lodash');
 const app = express();
 
 mongoose.Promise = global.Promise;
-const DATABASE_URL = process.env.DATABASE_URL || "mongodb://localhost:27017/mediaServer";
-mongoose.connect(DATABASE_URL, {
+
+mongoose.connect(config.databaseUrl, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(
-    () =>  { console.log('Connected to the database') },
-    (err) => { console.log('Can not connect the database! ' + err) }
+    () =>  { 
+        console.log('Connected to the database')
+    },
+    (err) => {
+        console.log('Can not connect the database! ' + err)
+    }
 );
 
 app.use(bodyParser.urlencoded({
@@ -31,8 +36,6 @@ var auth = require('./routes/userAuth');
 routes(app);
 auth(app);
 
-const PORT = process.env.PORT || 3000
-
-app.listen(PORT, () => {
-    console.log("Server is listening on " + PORT)
+app.listen(config.port, () => {
+    console.log("Server is listening on " + config.port)
 })

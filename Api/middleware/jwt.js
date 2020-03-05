@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const config = require('../config');
 
 exports.checkToken = (req, res, next) => {
     let token = req.headers['x-access-token'] || req.headers['authorization'];
@@ -7,7 +8,7 @@ exports.checkToken = (req, res, next) => {
     }
 
     if(token) {
-        jwt.verify(token, 'secret', (err, decoded) => {
+        jwt.verify(token, config.secret, (err, decoded) => {
             if(err) {
                 return res.json({
                     success: false,
@@ -21,4 +22,12 @@ exports.checkToken = (req, res, next) => {
     } else {
         console.log('Auth not supplied');
     }
+}
+
+exports.generateToken = (payload) => {
+    return jwt.sign(
+        { payload }, 
+        config.secret, 
+        { expiresIn: '48h' }
+        )
 }

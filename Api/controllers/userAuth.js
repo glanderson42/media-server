@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
-const jwt = require('jsonwebtoken');
+const jwt = require('../middleware/jwt');
 const User = mongoose.model('Users');
+const config = require('../config');
 
 exports.authUser = (req, res) => {
     User.findOne(req.username, (err, user) => {
@@ -10,15 +11,7 @@ exports.authUser = (req, res) => {
         }
 
         if(user.password == req.body.password && user.isVerified) {
-            let token = jwt.sign(
-                {
-                    username: user.username
-                },
-                'secret',
-                {
-                    expiresIn: '24h'
-                }
-            );
+            let token = jwt.generateToken(user.username)
 
             res.json({
                 success: true,
